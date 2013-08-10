@@ -1,0 +1,58 @@
+source $VIMRUNTIME/mswin.vim
+behave mswin
+imap <C-D> <C-O>dd
+imap <CR> <CR><left><right>
+map o o<left><right>
+imap <c-]> {<cr>}<c-o>O<left><right>
+noremap <F6> =a{
+syn on
+colo desert
+se ru nu ar sw=4 ts=4 cin noswf et sta nowrap ww=<,>,[,] gfn=Consolas:h12
+cd D:\workspace
+autocmd BufEnter * lcd %:p:h
+map <c-t> :tabnew<CR>
+map <F9> :call CR()<CR><space>
+func CR()
+exec "update"
+if filereadable(expand("%<").".in")
+    exec "!start cmd /c g++ %<.cpp -O2 -o %<.exe & pause & run %< < %<.in & pause"
+else
+    exec "!start cmd /c g++ %<.cpp -o %<.exe & pause & run %< & pause"
+endif
+endfunc
+map <F10> :call CR2()<CR><space>
+func CR2()
+exec "update"
+exec "!start cmd /c g++ %<.cpp -o %<.exe & pause & run %< & pause"
+endfunc
+map <F5> :call SetTitle()<CR>Gkkk
+func SetTitle()
+let l = 0
+let l = l + 1 | call setline(l, "/*")
+let l = l + 1 | call setline(l, " * Author: Lixiang Liu")
+let l = l + 1 | call setline(l, " * Created Time:  ".strftime("%c"))
+let l = l + 1 | call setline(l, " * File Name: ".expand("%"))
+let l = l + 1 | call setline(l, " * Description: ")
+let l = l + 1 | call setline(l, " */")
+let l = l + 1 | call setline(l, "#include <cstdio>")
+let l = l + 1 | call setline(l, "#include <cstring>")
+let l = l + 1 | call setline(l, "#include <cmath>")
+let l = l + 1 | call setline(l, "#include <cstdlib>")
+let l = l + 1 | call setline(l, "#include <algorithm>")
+let l = l + 1 | call setline(l, "#include <vector>")
+let l = l + 1 | call setline(l, "using namespace std;")
+let l = l + 1 | call setline(l, "")
+let l = l + 1 | call setline(l, "int main() {")
+let l = l + 1 | call setline(l, "    return 0;")
+let l = l + 1 | call setline(l, "}")
+let l = l + 1 | call setline(l, "")
+endfunc
+
+map<F4> :call AddComment()<cr>
+func AddComment()
+    if getline('.')[0] == '/'
+        normal ^xx
+    else
+        normal 0i//
+    endif
+endfunc
